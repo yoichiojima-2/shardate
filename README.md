@@ -1,11 +1,11 @@
-# carve
+# shardate
 
 A lightweight Python library for efficiently reading year-month-day partitioned Parquet datasets with PySpark.
 
 ## Installation
 
 ```bash
-pip install carve
+pip install shardate
 ```
 
 ## Features
@@ -19,7 +19,7 @@ pip install carve
 
 ```python
 from datetime import date
-from carve import read_by_date, read_between, read_by_dates
+from shardate import read_by_date, read_between, read_by_dates
 
 # Read data for a specific date
 df = read_by_date("/path/to/data", date(2025, 1, 15))
