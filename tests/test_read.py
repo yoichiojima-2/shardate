@@ -4,8 +4,8 @@ from typing import Iterable
 import pytest
 from pyspark.sql import SparkSession
 
-from carve.read import read_between, read_by_date, read_by_dates
-from carve.dates import all_dates_between
+from shardate.read import read_between, read_by_date, read_by_dates
+from shardate.dates import all_dates_between
 
 
 @pytest.fixture(scope="session")

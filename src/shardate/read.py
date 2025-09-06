@@ -3,7 +3,7 @@ from typing import Iterable
 
 from pyspark.sql import DataFrame, SparkSession
 
-from carve.dates import all_dates_between
+from shardate.dates import all_dates_between
 
 
 def spark_session():
