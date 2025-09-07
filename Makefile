@@ -17,8 +17,11 @@ clean:
 build:
 	uv run python -m build
 
-publish:
+publish: build
 	uv run twine upload dist/*
 
 publish-test:
 	uv run twine upload --repository testpypi dist/*
+
+test:
+	uv run pytest -vvv
