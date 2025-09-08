@@ -28,6 +28,7 @@ Issues = "https://github.com/yoichiojima-2/shardate/issues"
 [dependency-groups]
 dev = [
     "build>=1.3.0",
+    "mypy>=1.17.1",
     "pytest>=8.4.2",
     "ruff>=0.12.12",
     "twine>=6.2.0",
