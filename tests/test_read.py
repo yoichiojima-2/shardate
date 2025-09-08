@@ -3,9 +3,11 @@ from typing import Iterable
 
 import pytest
 from pyspark.sql import SparkSession
+from pyspark.sql import DataFrame
 
 from shardate.read import read_between, read_by_date, read_by_dates
 from shardate.dates import all_dates_between
+from shardate.utils import date_col
 
 
 @pytest.fixture(scope="session")
@@ -54,18 +56,24 @@ def path(spark, start_date, end_date, tmp_path_factory):
     return path
 
 
+def _get_dates_in_df(df: DataFrame) -> Iterable[date]:
+    return [row["date"] for row in sorted(df.select(date_col()).distinct().collect())]
+
+
 def test_read_by_date(path: str, target_date: date):
     df = read_by_date(str(path), target_date)
-    df.show()
+    dates = _get_dates_in_df(df)
+    assert len(dates) == 1
+    assert dates[0] == target_date
 
 
 def test_read_between(path: str, start_date: date, end_date: date):
     df = read_between(str(path), start_date, end_date)
-    df.show()
-    assert True
+    dates = _get_dates_in_df(df)
+    assert dates == all_dates_between(start_date, end_date)
 
 
 def test_read_by_dates(path: str, target_dates: Iterable[date]):
     df = read_by_dates(path, target_dates)
-    df.show()
-    assert True
+    dates = _get_dates_in_df(df)
+    assert dates == target_dates
