@@ -40,7 +40,7 @@ class Reader:
             }
         )
 
-    def read_eoms_between(self, start_datel, end_date):
+    def read_eoms_between(self, start_date, end_date):
         return self.read_parquet(
             *{
                 f"{self.path}/{dt.strftime(self.partition_format)}"

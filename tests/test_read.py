@@ -72,3 +72,12 @@ def test_read_by_dates(path: str, target_dates: Iterable[date]):
     df = Reader(path).read_by_dates(target_dates)
     dates = [row["date"] for row in sorted(df.select(date_col()).distinct().collect())]
     assert dates == sorted(target_dates)
+
+
+def test_read_eoms_between(path: str, start_date: date, end_date: date):
+    df = Reader(path).read_eoms_between(start_date, end_date)
+    dates = [row["date"] for row in sorted(df.select(date_col()).distinct().collect())]
+    expected_dates = [
+        dt for dt in all_dates_between(start_date, end_date) if dt.day == 31
+    ]
+    assert dates == expected_dates
