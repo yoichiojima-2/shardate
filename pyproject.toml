@@ -1,6 +1,6 @@
 [project]
 name = "shardate"
-version = "2025.9.8.1"
+version = "2025.9.9"
 description = "A lightweight Python library for efficiently reading year-month-day partitioned Parquet datasets."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -28,6 +28,7 @@ Issues = "https://github.com/yoichiojima-2/shardate/issues"
 [dependency-groups]
 dev = [
     "build>=1.3.0",
+    "mypy>=1.17.1",
     "pytest>=8.4.2",
     "ruff>=0.12.12",
     "twine>=6.2.0",

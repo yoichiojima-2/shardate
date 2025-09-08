@@ -5,7 +5,7 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql import DataFrame
 
-from shardate.read import read_between, read_by_date, read_by_dates
+from shardate.shardate import Shardate
 from shardate.dates import all_dates_between
 from shardate.utils import date_col
 
@@ -61,19 +61,34 @@ def _get_dates_in_df(df: DataFrame) -> Iterable[date]:
 
 
 def test_read_by_date(path: str, target_date: date):
-    df = read_by_date(str(path), target_date)
+    df = Shardate(path).read_by_date(target_date)
     dates = _get_dates_in_df(df)
     assert len(dates) == 1
     assert dates[0] == target_date
 
 
 def test_read_between(path: str, start_date: date, end_date: date):
-    df = read_between(str(path), start_date, end_date)
+    df = Shardate(path).read_between(start_date, end_date)
     dates = _get_dates_in_df(df)
-    assert dates == all_dates_between(start_date, end_date)
+    assert dates == list(all_dates_between(start_date, end_date))
 
 
 def test_read_by_dates(path: str, target_dates: Iterable[date]):
-    df = read_by_dates(path, target_dates)
+    df = Shardate(path).read_by_dates(target_dates)
+    dates = _get_dates_in_df(df)
+    assert dates == sorted(target_dates)
+
+
+def test_read_eoms_between(path: str, start_date: date, end_date: date):
+    df = Shardate(path).read_eoms_between(start_date, end_date)
+    dates = _get_dates_in_df(df)
+    expected_dates = [
+        dt for dt in all_dates_between(start_date, end_date) if dt.day == 31
+    ]
+    assert dates == expected_dates
+
+
+def test_read_by_dates(path: str, target_dates: Iterable[date]):
+    df = Shardate(path).read_by_dates(target_dates)
     dates = _get_dates_in_df(df)
     assert dates == target_dates
