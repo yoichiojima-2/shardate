@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from dataclasses import dataclass
-from shardate.dates import all_dates_between, is_end_of_month
+from shardate.dates import all_dates_between, eoms_between
 
 
 def spark_session():
@@ -11,7 +11,7 @@ def spark_session():
 
 
 @dataclass
-class Reader:
+class Shardate:
     path: str
     partition_format: str = "y=%Y/m=%m/d=%d"
 
@@ -41,10 +41,4 @@ class Reader:
         )
 
     def read_eoms_between(self, start_date, end_date):
-        return self.read_parquet(
-            *{
-                f"{self.path}/{dt.strftime(self.partition_format)}"
-                for dt in all_dates_between(start_date, end_date)
-                if is_end_of_month(dt)
-            }
-        )
+        return self.read_by_dates(eoms_between(start_date, end_date))
