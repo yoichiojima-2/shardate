@@ -1,3 +1,13 @@
 """Shardate: Fast reader for YMD-partitioned Parquet files."""
-from .shardate import Shardate  # noqa: F401
-all = ["Shardate"]
+
+import importlib.metadata
+
+from .shardate import Shardate
+
+try:
+    __version__ = importlib.metadata.version("shardate")
+except importlib.metadata.PackageNotFoundError:
+    __version__ = "unknown"
+
+__all__ = ["Shardate"]
+

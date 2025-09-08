@@ -20,7 +20,7 @@ build:
 publish: build
 	uv run twine upload dist/*
 
-publish-test:
+publish-test: build
 	uv run twine upload --repository testpypi dist/*
 
 test:
