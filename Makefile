@@ -23,5 +23,8 @@ publish: build
 publish-test: build
 	uv run twine upload --repository testpypi dist/*
 
+typecheck:
+	uv run mypy .
+
 test:
 	uv run pytest -vvv

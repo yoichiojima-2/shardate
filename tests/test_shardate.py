@@ -56,7 +56,7 @@ def path(spark, start_date, end_date, tmp_path_factory):
     return path
 
 
-def _get_dates_in_df(df: DataFrame) -> Iterable[date]:
+def _get_dates_in_df(df: DataFrame) -> list[date]:
     return [row["date"] for row in sorted(df.select(date_col()).distinct().collect())]
 
 
