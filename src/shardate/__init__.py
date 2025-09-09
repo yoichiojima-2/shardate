@@ -10,4 +10,3 @@ except importlib.metadata.PackageNotFoundError:
     __version__ = "unknown"
 
 __all__ = ["Shardate"]
-
