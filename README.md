@@ -1,5 +1,11 @@
 # shardate
 
+[![PyPI version](https://img.shields.io/pypi/v/shardate)](https://pypi.org/project/shardate/)
+[![Python versions](https://img.shields.io/pypi/pyversions/shardate)](https://pypi.org/project/shardate/)
+[![License](https://img.shields.io/github/license/yoichiojima-2/shardate)](https://github.com/yoichiojima-2/shardate/blob/main/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/yoichiojima-2/shardate/ci.yml)](https://github.com/yoichiojima-2/shardate/actions)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
 A lightweight Python library for efficiently reading year-month-day partitioned Parquet datasets with PySpark.
 
 ## Installation
