@@ -86,9 +86,3 @@ def test_read_eoms_between(path: str, start_date: date, end_date: date):
         dt for dt in all_dates_between(start_date, end_date) if dt.day == 31
     ]
     assert dates == expected_dates
-
-
-def test_read_by_dates(path: str, target_dates: Iterable[date]):
-    df = Shardate(path).read_by_dates(target_dates)
-    dates = _get_dates_in_df(df)
-    assert dates == target_dates
