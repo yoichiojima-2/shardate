@@ -21,4 +21,4 @@ def test_is_end_of_month():
 def test_eoms_between():
     res = eoms_between(date(2025, 12, 29), date(2026, 2, 2))
     expected = [date(2025, 12, 31), date(2026, 1, 31)]
-    assert res == expected
+    assert list(res) == expected
