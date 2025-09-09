@@ -20,16 +20,16 @@ class Shardate:
     partition_format: str = "y=%Y/m=%m/d=%d"
 
     @property
-    def read_parquet(self) -> Callable[[Any], DataFrame]:
+    def read(self) -> Callable[[Any], DataFrame]:
         return spark_session().read.options(basePath=self.path).parquet
 
     def read_by_date(self, target_date: date) -> DataFrame:
-        return self.read_parquet(
+        return self.read(
             f"{self.path}/{target_date.strftime(self.partition_format)}"
         )
 
     def read_between(self, start_date: date, end_date: date) -> DataFrame:
-        return self.read_parquet(
+        return self.read(
             *{
                 f"{self.path}/{dt.strftime(self.partition_format)}"
                 for dt in all_dates_between(start_date, end_date)
@@ -37,7 +37,7 @@ class Shardate:
         )
 
     def read_by_dates(self, target_dates: Iterable[date]) -> DataFrame:
-        return self.read_parquet(
+        return self.read(
             *{
                 f"{self.path}/{dt.strftime(self.partition_format)}"
                 for dt in target_dates
