@@ -1,13 +1,17 @@
+from datetime import date
+from typing import Iterable, Callable, Any
+
 from pyspark.sql import SparkSession
+from pyspark.sql import DataFrame
 from dataclasses import dataclass
+
 from shardate.dates import all_dates_between, eoms_between
 
 
-def spark_session():
-    try:
-        return SparkSession.getActiveSession()
-    except Exception as e:
-        raise RuntimeError("No active SparkSession found. Please create one.") from e
+def spark_session() -> SparkSession:
+    if session := SparkSession.getActiveSession():
+        return session
+    raise RuntimeError("No active SparkSession found. Please create one.")
 
 
 @dataclass
@@ -16,15 +20,15 @@ class Shardate:
     partition_format: str = "y=%Y/m=%m/d=%d"
 
     @property
-    def read_parquet(self):
+    def read_parquet(self) -> Callable[[Any], DataFrame]:
         return spark_session().read.options(basePath=self.path).parquet
 
-    def read_by_date(self, target_date):
+    def read_by_date(self, target_date: date) -> DataFrame:
         return self.read_parquet(
             f"{self.path}/{target_date.strftime(self.partition_format)}"
         )
 
-    def read_between(self, start_date, end_date):
+    def read_between(self, start_date: date, end_date: date) -> DataFrame:
         return self.read_parquet(
             *{
                 f"{self.path}/{dt.strftime(self.partition_format)}"
@@ -32,7 +36,7 @@ class Shardate:
             }
         )
 
-    def read_by_dates(self, target_dates):
+    def read_by_dates(self, target_dates: Iterable[date]) -> DataFrame:
         return self.read_parquet(
             *{
                 f"{self.path}/{dt.strftime(self.partition_format)}"
@@ -40,5 +44,5 @@ class Shardate:
             }
         )
 
-    def read_eoms_between(self, start_date, end_date):
+    def read_eoms_between(self, start_date: date, end_date: date) -> DataFrame:
         return self.read_by_dates(eoms_between(start_date, end_date))
