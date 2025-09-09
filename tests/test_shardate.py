@@ -5,7 +5,7 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql import DataFrame
 
-from shardate.shardate import Shardate
+from shardate.shardate import Shardate, spark_session
 from shardate.dates import all_dates_between
 from shardate.utils import date_col
 
@@ -86,3 +86,13 @@ def test_read_eoms_between(path: str, start_date: date, end_date: date):
         dt for dt in all_dates_between(start_date, end_date) if dt.day == 31
     ]
     assert dates == expected_dates
+
+
+def test_spark_session_no_active_session():
+    """Test that spark_session() raises RuntimeError when no active SparkSession is found."""
+    # Stop any existing SparkSession
+    if spark := SparkSession.getActiveSession():
+        spark.stop()
+    
+    with pytest.raises(RuntimeError, match="No active SparkSession found. Please create one."):
+        spark_session()
