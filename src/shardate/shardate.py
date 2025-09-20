@@ -24,9 +24,7 @@ class Shardate:
         return spark_session().read.options(basePath=self.path).parquet
 
     def read_by_date(self, target_date: date) -> DataFrame:
-        return self.read(
-            f"{self.path}/{target_date.strftime(self.partition_format)}"
-        )
+        return self.read(f"{self.path}/{target_date.strftime(self.partition_format)}")
 
     def read_between(self, start_date: date, end_date: date) -> DataFrame:
         return self.read(
