@@ -92,6 +92,10 @@ def test_read_eoms_between(path: str, start_date: date, end_date: date):
 def test_spark_session_no_active_session():
     """Test spark_session function raises RuntimeError when no active session."""
     # Mock SparkSession.getActiveSession to return None
-    with unittest.mock.patch('shardate.shardate.SparkSession.getActiveSession', return_value=None):
-        with pytest.raises(RuntimeError, match="No active SparkSession found. Please create one."):
+    with unittest.mock.patch(
+        "shardate.shardate.SparkSession.getActiveSession", return_value=None
+    ):
+        with pytest.raises(
+            RuntimeError, match="No active SparkSession found. Please create one."
+        ):
             spark_session()
